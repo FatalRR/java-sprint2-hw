@@ -7,10 +7,10 @@ public class YearlyReport {
     ArrayList<YearlyRecord> yearReport = new ArrayList<>();
     String[] year = {"2021"};
     String[] month = {"Январь", "Февраль", "Март"};
+    boolean check = false;
 
     public String readFileContentsOrNull(String path) {
         try {
-            System.out.println(path);
             return Files.readString(Path.of(path));
         } catch (IOException e) {
             System.out.println("Невозможно прочитать файл с годовым отчётом. Возможно, файл не находится в нужной директории.");
@@ -28,7 +28,15 @@ public class YearlyReport {
             boolean isExpense = Boolean.parseBoolean(lineContents[2]);
             yearReport.add(new YearlyRecord(month, amount, isExpense));
         }
-        System.out.println("Файл за " + year[0] + " год считан!");
+        check = true;
+    }
+
+    public void checkRead() {
+        if (check == true) {
+            System.out.println("Файл за " + year[0] + " год считан!");
+        } else {
+            System.out.println("Файл не считан!");
+        }
     }
 
     public int sumExpense(int num) {
@@ -77,14 +85,15 @@ public class YearlyReport {
 
 
     public void printYearReport() {
-
-        System.out.println("Информация за " + year[0] + " год:");
-        for (int i = 0; i < month.length; i++) {
-            System.out.println("Прибыль за " + month[i] + ": " + (sumIncome(i + 1) - sumExpense(i + 1)));
-            System.out.println(sumExpense(i + 1));
-            System.out.println(sumIncome(i + 1));
+        if (check) {
+            System.out.println("Информация за " + year[0] + " год:");
+            for (int i = 0; i < month.length; i++) {
+                System.out.println("Прибыль за " + month[i] + ": " + (sumIncome(i + 1) - sumExpense(i + 1)));
+            }
+            System.out.println("Средний доход за год: " + avgExpense() + "\n" +
+                    "Средний расход за год: " + avgIncome());
+        } else {
+            System.out.println("Файл не считан!");
         }
-        System.out.println("Средний доход за год: " + avgExpense());
-        System.out.println("Средний расход за год: " + avgIncome());
     }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class MonthlyReport {
     ArrayList<MonthlyRecord> monthReports = new ArrayList<>();
     String[] month = {"Январь", "Февраль", "Март"};
+    boolean check = false;
 
     public String readFileContentsOrNull(String path) {
         try {
@@ -29,7 +30,17 @@ public class MonthlyReport {
                 int sumOfOne = Integer.parseInt(lineContents[3]);
                 monthReports.add(new MonthlyRecord(itemName, isExpense, quantity, sumOfOne, month));
             }
-            System.out.println("Файл за " + this.month[i - 1] + " считан!");
+        }
+        check = true;
+    }
+
+    public void checkRead() {
+        if (check == true) {
+            for (int i = 1; i <= 3; i++) {
+                System.out.println("Файл за " + this.month[i - 1] + " считан!");
+            }
+        } else {
+            System.out.println("Файлы не считаны!");
         }
     }
 
@@ -106,13 +117,14 @@ public class MonthlyReport {
     }
 
     public void printMonthlyReport() {
-        for (int i = 0; i < month.length; i++) {
-            System.out.println(sumExpense(i + 1));
-            System.out.println(sumIncome(i + 1));
-            System.out.println("Отчет за месяц: " + month[i]);
-            System.out.println("Самый прибыльный товар: " + maxNameExpense(i + 1) + ", на сумму: " + maxExpense(i + 1));
-            System.out.println("Самая большая трата: " + maxNameIncome(i + 1) + ", на сумму: " + maxIncome(i + 1));
-
+        if (check) {
+            for (int i = 0; i < month.length; i++) {
+                System.out.println("Отчет за " + month[i] + ": \n" +
+                        "Самый прибыльный товар: " + maxNameExpense(i + 1) + ", на сумму: " + maxExpense(i + 1) + "\n" +
+                        "Самая большая трата: " + maxNameIncome(i + 1) + ", на сумму: " + maxIncome(i + 1));
+            }
+        } else {
+            System.out.println("Файлы не считаны!");
         }
     }
 }

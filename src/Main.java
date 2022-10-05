@@ -15,12 +15,14 @@ public class Main {
             switch (userInput) {
                 case 1:
                     monthlyReport.readMonthReports();
+                    monthlyReport.checkRead();
                     break;
                 case 2:
                     yearlyReport.readYearReport();
+                    yearlyReport.checkRead();
                     break;
                 case 3:
-                    revise.reviseReports();
+                    revise.reviseReports(monthlyReport, yearlyReport);
                     break;
                 case 4:
                     monthlyReport.printMonthlyReport();
