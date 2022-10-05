@@ -9,37 +9,43 @@ public class Main {
         YearlyReport yearlyReport = new YearlyReport();
         Revise revise = new Revise();
         printMenu();
-        int userInput = scanner.nextInt();
+
         loop:
+
         while (startLoop) {
-            switch (userInput) {
-                case 1:
-                    monthlyReport.readMonthReports();
-                    monthlyReport.checkRead();
-                    break;
-                case 2:
-                    yearlyReport.readYearReport();
-                    yearlyReport.checkRead();
-                    break;
-                case 3:
-                    revise.reviseReports(monthlyReport, yearlyReport);
-                    break;
-                case 4:
-                    monthlyReport.printMonthlyReport();
-                    break;
-                case 5:
-                    yearlyReport.printYearReport();
-                    break;
-                case 453:
-                    System.out.println("Программа завершена");
-                    startLoop = false;
-                    break loop;
-                default:
-                    System.out.println("Извините, такой команды пока нет.");
-                    break;
+            try {
+                String userInput = scanner.nextLine();
+                int input = Integer.parseInt(userInput);
+                switch (input) {
+                    case 1:
+                        monthlyReport.readMonthReports();
+                        monthlyReport.checkRead();
+                        break;
+                    case 2:
+                        yearlyReport.readYearReport();
+                        yearlyReport.checkRead();
+                        break;
+                    case 3:
+                        revise.reviseReports(monthlyReport, yearlyReport);
+                        break;
+                    case 4:
+                        monthlyReport.printMonthlyReport();
+                        break;
+                    case 5:
+                        yearlyReport.printYearReport();
+                        break;
+                    case 453:
+                        System.out.println("Программа завершена");
+                        startLoop = false;
+                        break loop;
+                    default:
+                        System.out.println("Извините, такой команды пока нет.");
+                        break;
+                }
+            } catch (NumberFormatException s) {
+                System.out.println("Извините, такой команды пока нет.");
             }
             printMenu();
-            userInput = scanner.nextInt();
         }
     }
 
