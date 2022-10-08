@@ -1,16 +1,22 @@
 import java.util.Scanner;
 public class Main {
 
-//    enum command {
-//        EXIT,
-//        READ_MONTH,
-//        READ_YEAR,
-//        REVISE_REPORT,
-//        INF_MONTH_REPORT,
-//        INF_YEAR_REPORT
-//    }
+    private enum Command {
+        EXIT("Выход"),
+        READ_MONTH("Считать все месячные отчеты"),
+        READ_YEAR("Считать годовой отчет"),
+        REVISE_REPORT("Сверить отчеты"),
+        INF_MONTH_REPORT("Информация о всех месячных отчетах"),
+        INF_YEAR_REPORT("Информация о годовом отчете");
+        public final String itemName;
+        Command(String aName) {
+            this.itemName = aName;
+        }
+
+    }
 
     public static void main(String[] args) {
+        final Command[] command = Command.values();
         Scanner scanner = new Scanner(System.in);
         Report report = new Report();
         MonthlyReport monthlyReport = new MonthlyReport();
@@ -19,28 +25,27 @@ public class Main {
         printMenu();
 
         startLoop:
-        while (true) {    // 3 дня бился над Enum, не смог разобраться, не очень понятно как это использовать вместе со свитчем, не понятно как вызвать
-            // испробывал values(), ordinal(), 10 статей про него, так и не дошло, если поможете разобраться как им пользоваться именно со switch и вводом с клавиатуры, будет шикарно
+        while (true) {
             int userInput = scanner.nextInt();
-            switch (userInput) {
-                case 1:
+            switch (command[userInput]) {
+                case READ_MONTH:
                     report.readMonthReports();
                     report.checkReadMonth();
                     break;
-                case 2:
+                case READ_YEAR:
                     report.readYearReport();
                     report.checkReadYear();
                     break;
-                case 3:
+                case REVISE_REPORT:
                     revise.reviseReports(monthlyReport, yearlyReport, report);
                     break;
-                case 4:
+                case INF_MONTH_REPORT:
                     monthlyReport.printMonthlyReport(report);
                     break;
-                case 5:
+                case INF_YEAR_REPORT:
                     yearlyReport.printYearReport(report);
                     break;
-                case 453:
+                case EXIT:
                     System.out.println("Программа завершена");
                     break startLoop;
                 default:
@@ -58,7 +63,7 @@ public class Main {
                 "3 - Сверить отчеты \n " +
                 "4 - Информация о всех месячных отчетах \n " +
                 "5 - Информация о годовом отчете \n " +
-                "453 - Выход");
+                "0 - Выход");
     }
 }
 
