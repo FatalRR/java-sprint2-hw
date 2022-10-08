@@ -1,127 +1,58 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 public class MonthlyReport {
-    ArrayList<MonthlyRecord> monthReports = new ArrayList<>();
-    String[] month = {"Январь", "Февраль", "Март"};
-    boolean check = false;
-
-    public String readFileContentsOrNull(String path) {
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно, файл не находится в нужной директории.");
-            return null;
-        }
-    }
-
-    public void readMonthReports() {
-        for (int i = 1; i <= 3; i++) {
-            String reportLine = readFileContentsOrNull("resources/m.20210" + i + ".csv");
-            String[] lines = reportLine.split("\n");
-            int month = i;
-            for (int j = 1; j < lines.length; j++) {
-                String[] lineContents = lines[j].split(",");
-                String itemName = lineContents[0];
-                boolean isExpense = Boolean.parseBoolean(lineContents[1]);
-                int quantity = Integer.parseInt(lineContents[2]);
-                int sumOfOne = Integer.parseInt(lineContents[3]);
-                monthReports.add(new MonthlyRecord(itemName, isExpense, quantity, sumOfOne, month));
-            }
-        }
-        check = true;
-    }
-
-    public void checkRead() {
-        if (check == true) {
-            for (int i = 1; i <= 3; i++) {
-                System.out.println("Файл за " + this.month[i - 1] + " считан!");
-            }
-        } else {
-            System.out.println("Файлы не считаны!");
-        }
-    }
-
-    public int sumExpense(int num) {
+    public int sumExpense(int num, Report report) {
         int sum = 0;
-        for (MonthlyRecord row : monthReports) {
+        for (MonthlyRecord row : report.monthReports) {
             if (row.isExpense && row.monthNum == num) {
                 sum += row.quantity * row.sumOfOne;
             }
         }
         return sum;
     }
-
-    public int sumIncome(int num) {
+    public int sumIncome(int num, Report report) {
         int sum = 0;
-        for (MonthlyRecord row : monthReports) {
+        for (MonthlyRecord row : report.monthReports) {
             if (!row.isExpense && row.monthNum == num) {
                 sum += row.quantity * row.sumOfOne;
             }
         }
         return sum;
     }
-
-    public int maxExpense(int num) {
-        int max = 0;
-        for (MonthlyRecord row : monthReports) {
-            if (row.isExpense && row.monthNum == num) {
-                if (row.quantity * row.sumOfOne > max) {
-                    max = row.quantity * row.sumOfOne;
-                }
-            }
-        }
-        return max;
-    }
-
-    public String maxNameExpense(int num) {
+    public String maxExpense(int num, Report report) {
         int max = 0;
         String name = "";
-        for (MonthlyRecord row : monthReports) {
+        for (MonthlyRecord row : report.monthReports) {
             if (row.isExpense && row.monthNum == num) {
-                if (row.quantity * row.sumOfOne > max) {
-                    max = row.quantity * row.sumOfOne;
+                int res = row.quantity * row.sumOfOne;
+                if (res > max) {
+                    max = res;
                     name = row.itemName;
                 }
             }
         }
-        return name;
+        return "Самая большая трата: " + name + ", на сумму: " + max;
     }
-
-    public int maxIncome(int num) {
-        int max = 0;
-        for (MonthlyRecord row : monthReports) {
-            if (!row.isExpense && row.monthNum == num) {
-                if (row.quantity * row.sumOfOne > max) {
-                    max = row.quantity * row.sumOfOne;
-                }
-            }
-        }
-        return max;
-    }
-
-    public String maxNameIncome(int num) {
+    public String maxIncome(int num, Report report) {
         int max = 0;
         String name = "";
-        for (MonthlyRecord row : monthReports) {
+        for (MonthlyRecord row : report.monthReports) {
             if (!row.isExpense && row.monthNum == num) {
-                if (row.quantity * row.sumOfOne > max) {
-                    max = row.quantity * row.sumOfOne;
+                int res = row.quantity * row.sumOfOne;
+                if (res > max) {
+                    max = res;
                     name = row.itemName;
                 }
             }
         }
-        return name;
+        return "Самый прибыльный товар: " + name + ", на сумму: " + max;
     }
 
-    public void printMonthlyReport() {
-        if (check) {
-            for (int i = 0; i < month.length; i++) {
-                System.out.println("Отчет за " + month[i] + ": \n" +
-                        "Самый прибыльный товар: " + maxNameExpense(i + 1) + ", на сумму: " + maxExpense(i + 1) + "\n" +
-                        "Самая большая трата: " + maxNameIncome(i + 1) + ", на сумму: " + maxIncome(i + 1));
+    public void printMonthlyReport(Report report) {
+        if (report.checkMonth) {
+            for (int i = 0; i < report.MONTH_COUNT; i++) {
+                System.out.println(
+                        "Отчет за " + report.month[i] + ":\n" +
+                                maxExpense(i + 1, report) + "\n" +
+                                maxIncome(i + 1, report));
             }
         } else {
             System.out.println("Файлы не считаны!");
