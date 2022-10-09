@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 public class Main {
 
     private enum Command {
@@ -9,6 +10,7 @@ public class Main {
         INF_MONTH_REPORT("Информация о всех месячных отчетах"),
         INF_YEAR_REPORT("Информация о годовом отчете");
         public final String itemName;
+
         Command(String aName) {
             this.itemName = aName;
         }
@@ -24,7 +26,6 @@ public class Main {
         Revise revise = new Revise();
         printMenu();
 
-        startLoop:
         while (true) {
             int userInput = scanner.nextInt();
             switch (command[userInput]) {
@@ -47,7 +48,7 @@ public class Main {
                     break;
                 case EXIT:
                     System.out.println("Программа завершена");
-                    break startLoop;
+                    return;
                 default:
                     System.out.println("Извините, такой команды пока нет.");
                     break;
@@ -57,12 +58,12 @@ public class Main {
     }
 
     private static void printMenu() {
-        System.out.println("Что вы хотите сделать? \n " +
-                "1 - Считать все месячные отчеты \n " +
-                "2 - Считать годовой отчет \n " +
-                "3 - Сверить отчеты \n " +
-                "4 - Информация о всех месячных отчетах \n " +
-                "5 - Информация о годовом отчете \n " +
+        System.out.println("Что вы хотите сделать?" + System.lineSeparator() +
+                "1 - Считать все месячные отчеты " + System.lineSeparator() +
+                "2 - Считать годовой отчет " + System.lineSeparator() +
+                "3 - Сверить отчеты" + System.lineSeparator() +
+                "4 - Информация о всех месячных отчетах" + System.lineSeparator() +
+                "5 - Информация о годовом отчете" + System.lineSeparator() +
                 "0 - Выход");
     }
 }
