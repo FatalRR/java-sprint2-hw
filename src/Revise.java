@@ -1,7 +1,7 @@
 public class Revise {
     public void reviseReports(MonthlyReport monthlyReport, YearlyReport yearlyReport, Report report) {
         if (report.checkMonth && report.checkYear) {
-            for (int month = 0; month < report.month.length; month++) {
+            for (int month = 0; month < report.MONTH_COUNT; month++) {
 
                 if (monthlyReport.sumExpenseOrIncome(month + 1, true, report) != yearlyReport.sumExpenseOrIncome(month + 1, true, report)) {
                     System.out.println("Данные по расходам за " + report.month[month] + " не верны!!!");
