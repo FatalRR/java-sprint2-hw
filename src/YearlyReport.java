@@ -24,10 +24,10 @@ public class YearlyReport {
     public void printYearReport(Report report) {
         if (report.checkYear) {
             System.out.println("Информация за " + report.year[0] + " год:");
-            for (int i = 0; i < report.MONTH_COUNT; i++) {
-                System.out.println("Прибыль за " + report.month[i] + ": " +
-                        (sumExpenseOrIncome(i + 1, false, report) -
-                                sumExpenseOrIncome(i + 1, true, report)));
+            for (int month = 0; month < report.MONTH_COUNT; month++) {
+                System.out.println("Прибыль за " + report.month[month] + ": " +
+                        (sumExpenseOrIncome(month + 1, false, report) -
+                                sumExpenseOrIncome(month + 1, true, report)));
             }
             System.out.println("Средний расход " + avgExpenseOrIncome(true, report) + "\n" +
                     "Средний доход " + avgExpenseOrIncome(false, report));
