@@ -28,32 +28,38 @@ public class Main {
 
         while (true) {
             int userInput = scanner.nextInt();
-            switch (command[userInput]) {
-                case READ_MONTH:
-                    report.readMonthReports();
-                    report.checkReadMonth();
-                    break;
-                case READ_YEAR:
-                    report.readYearReport();
-                    report.checkReadYear();
-                    break;
-                case REVISE_REPORT:
-                    revise.reviseReports(monthlyReport, yearlyReport, report);
-                    break;
-                case INF_MONTH_REPORT:
-                    monthlyReport.printMonthlyReport(report);
-                    break;
-                case INF_YEAR_REPORT:
-                    yearlyReport.printYearReport(report);
-                    break;
-                case EXIT:
-                    System.out.println("Программа завершена");
-                    return;
-                default:
-                    System.out.println("Извините, такой команды пока нет.");
-                    break;
+            if (userInput > command.length || userInput < 0) {
+                System.out.println("Неверная команда!, попробуйте еще раз");
+                printMenu();
+            } else {
+
+                switch (command[userInput]) {
+                    case READ_MONTH:
+                        report.readMonthReports();
+                        //   report.check();
+                        break;
+                    case READ_YEAR:
+                        report.readYearReport();
+                        //   report.check();
+                        break;
+                    case REVISE_REPORT:
+                        revise.reviseReports(monthlyReport, yearlyReport, report);
+                        break;
+                    case INF_MONTH_REPORT:
+                        monthlyReport.printMonthlyReport(report);
+                        break;
+                    case INF_YEAR_REPORT:
+                        yearlyReport.printYearReport(report);
+                        break;
+                    case EXIT:
+                        System.out.println("Программа завершена");
+                        return;
+                    default:
+                        System.out.println("Извините, такой команды пока нет.");
+                        break;
+                }
+                printMenu();
             }
-            printMenu();
         }
     }
 
