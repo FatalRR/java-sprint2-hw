@@ -1,11 +1,23 @@
 import java.util.ArrayList;
 
 public class Report {
+    private enum Month { // пришлось использовать латиницу, писал что не стоит кириллицу использовать дял констант
+        JANUARY("Январь"),
+        FEBRUARY("Февраль"),
+        MARCH("Март");
+        public final String monthName;
+
+        Month(String aName) {
+            this.monthName = aName;
+        }
+
+    }
+
+    final Month[] month = Month.values();
     ReadFiles readFiles = new ReadFiles();
-    ArrayList<MonthlyRecord> monthReports = new ArrayList<>();
-    ArrayList<YearlyRecord> yearReport = new ArrayList<>();
+    static final ArrayList<MonthlyRecord> monthReports = new ArrayList<>();
+    static final ArrayList<YearlyRecord> yearReport = new ArrayList<>();
     String[] year = {"2021"};
-    String[] month = {"Январь", "Февраль", "Март"};
     static final int MONTH_COUNT = 3;
     boolean checkMonth = false;
     boolean checkYear = false;
@@ -57,16 +69,9 @@ public class Report {
         checkYear = true;
     }
 
-    public void checkReadMonth() {
-        if (!checkMonth) {
-            System.out.println("Файлы не считаны!");
-        }
-    }
-
-    public void checkReadYear() {
-        if (!checkYear) {
-            System.out.println("Файл не считан!");
-        }
-    }
-
+//    public void check() {  // было принято решение совсем отказаться от данных методов, во первых не смог подобрать логический операнд,
+//        if (!checkMonth && !checkYear) { // во вторых нужен ли этот метод? у нас метод считывания файла выдает сообщение о том что невозможно считать файл
+//            System.out.println("Файлы не считаны!");
+//        }
+//    }
 }
