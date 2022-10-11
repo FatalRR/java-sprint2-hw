@@ -28,7 +28,7 @@ public class Main {
 
         while (true) {
             int userInput = scanner.nextInt();
-            if (userInput > command.length || userInput < 0) {
+            if (userInput >= command.length || userInput < 0) {
                 System.out.println("Неверная команда!, попробуйте еще раз");
                 printMenu();
             } else {
